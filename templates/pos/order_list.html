@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Order List</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Order #</th>
+        <th>Customer</th>
+        <th>Total Amount</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.customer.name }}</td>
+        <td>{{ order.total_amount }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+          <a href="{% url 'order_detail' order.pk %}" class="btn btn-info btn-sm">View</a>
+          <a href="{% url 'order_update' order.pk %}" class="btn btn-warning btn-sm">Edit</a>
+          <form action="{% url 'order_delete' order.pk %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
